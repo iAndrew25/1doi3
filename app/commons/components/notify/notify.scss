@@ -1,13 +1,19 @@
 .notify {
 	position: absolute;
-	top: 50px;
+	top: -100%;
 	left: 50%;
 	transform: translateX(-50%);
+	-webkit-transition: top .5s;
+    transition: top .5s;
 
 	padding: 15px;
 	color: #FFF;
 	border-radius: 5px;
 	cursor: pointer;
+
+	&.show-notify {
+		top: 50px;
+	}
 
 	&:hover {
 		opacity: 1;
@@ -28,3 +34,4 @@
 		background-color: rgba(#2a9fd6, 0.8);
 	}
 }
+

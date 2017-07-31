@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 export default class Notify extends React.Component {
 	constructor(props) {
 		super(props);
@@ -42,15 +44,14 @@ export default class Notify extends React.Component {
 	}
 
 	render() {
-		let {msg, type, displayNotify} = this.state;
+		let {msg, type, displayNotify} = this.state,
+			notifyClass = classNames('notify', type, {'show-notify': displayNotify});
 
 		return (
 			<div>
-				{displayNotify ? 
-					<div className={`notify ${type}`}>
-						{msg}
-					</div>
-				: ''}
+				<div className={notifyClass} onClick={() => this.hideNotify(0)}>
+					{msg}
+				</div>
 			</div>
 		)
 	}

@@ -21,7 +21,7 @@ export default class Authentication extends React.Component {
 
 	toggleDisplay() {
 		this.setState(state => ({displayLogin: !state.displayLogin}));
-		//notify.success('The account has been created.');
+		notify.success(`The account has been created. Please log in with the password you received on e-mail.`);
 	}
 
 	notifyApi(api) {
