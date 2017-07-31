@@ -1,0 +1,17 @@
+.login-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	input[type="text"],
+	input[type="password"] {
+		padding: 10px;
+		font-size: 15px;
+		border-radius: 5px;
+	}
+
+	.forgot-password {
+		color: $blue-link;
+		cursor: pointer;
+	}
+}

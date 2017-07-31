@@ -1,0 +1,25 @@
+button {
+	outline: none;
+	width: 250px;
+	margin: 10px 5px;
+	padding: 10px;
+	font-size: 15px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+	color: $white-background;
+	font-weight: 700;
+
+	&.btn-add {
+		background-color: $blue-link;
+	}
+
+	&.btn-disabled {
+		background-color: $grey-text;
+		cursor: not-allowed;
+	}
+
+	&.btn-remove {
+		background-color: $red-button;
+	}
+}

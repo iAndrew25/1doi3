@@ -1,0 +1,24 @@
+@import './log-in/log-in';
+
+.authenticate-box {
+	background-color: $white-background;
+	width: 310px;
+	margin: 200px auto;
+	border-radius: 10px;
+	border: 1px solid $grey-border;
+	padding: 10px;
+
+	.sign-up-now {
+		position: absolute;
+		text-align: center;
+		bottom: 20px;
+		width: 310px;
+		color: $grey-text;
+
+		span {
+			color: $blue-title;
+			font-weight: 700;
+			cursor: pointer;
+		}
+	}
+}

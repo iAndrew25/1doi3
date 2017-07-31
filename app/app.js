@@ -1,4 +1,5 @@
 import test from 'utils/test';
+import Authentication from './authentication/authentication';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -10,10 +11,9 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		test();
 		return(
 			<div className="box">
-				<p>{this.state.value}</p>
+				<Authentication />
 			</div>
 		)
 	}

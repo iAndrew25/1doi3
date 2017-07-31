@@ -43,7 +43,7 @@ module.exports = {
 		new ExtractTextPlugin('style.css'),
 		new HtmlWebpackPlugin(),
 		new ReactRootPlugin,
-		new webpack.LoaderOptionsPlugin({
+/*		new webpack.LoaderOptionsPlugin({
 			minimize: true,
 			debug: false
 		}),
@@ -57,10 +57,10 @@ module.exports = {
 				screw_ie8: true
 			},
 			comments: false
-		}),
-		new OptimizeCssAssetsPlugin({
+		}),*/
+/*		new OptimizeCssAssetsPlugin({
 			assetNameRegExp: /\.style\.css$/g,
 			canPrint: true
-		})
+		})*/
 	],
 }

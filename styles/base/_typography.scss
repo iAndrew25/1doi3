@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+
+h1 {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+	font-size: 26px;
+	color: $blue-title;
+	padding: 10px;
+	text-transform: uppercase;
+}
+
+a {
+	text-decoration: none;
+	color: $blue-link;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
