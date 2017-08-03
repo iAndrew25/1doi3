@@ -1,8 +1,9 @@
 import Login from './log-in/log-in';
 import Signup from './sign-up/sign-up';
 import Notify from 'components/notify/notify';
+import InlineNotify from 'components/inline-notify/inline-notify';
 
-let notify;
+let notify, inlineNotify;
 
 export default class Authentication extends React.Component {
 	constructor(props) {
@@ -15,17 +16,23 @@ export default class Authentication extends React.Component {
 		}
 
 		this.notifyApi = this.notifyApi.bind(this);
+		this.inlineNotifyApi = this.inlineNotifyApi.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.toggleDisplay = this.toggleDisplay.bind(this);
 	}
 
 	toggleDisplay() {
 		this.setState(state => ({displayLogin: !state.displayLogin}));
-		notify.success(`The account has been created. Please log in with the password you received on e-mail.`);
+		notify.addNotify(`You received a new message from GAG DGkn dDG.`);
+		inlineNotify.success(`Salut`);
 	}
 
 	notifyApi(api) {
 		notify = api;
+	}
+
+	inlineNotifyApi(api) {
+		inlineNotify = api;
 	}
 
 	handleChange(key, value) {
@@ -46,6 +53,8 @@ export default class Authentication extends React.Component {
 					name={name} /> : ''}
 
 				<Notify notifyApi={this.notifyApi} />
+
+				<InlineNotify inlineNotifyApi={this.inlineNotifyApi} />
 
 				{displayLogin ? 
 					<div className="sign-up-now">Don't have an account yet? 

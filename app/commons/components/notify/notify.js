@@ -1,57 +1,35 @@
-import classNames from 'classnames';
-
 export default class Notify extends React.Component {
 	constructor(props) {
 		super(props);
+		this.id = 0;
 		this.state = {
-			displayNotify: false
+			notifications: []
 		}
 
-		this.showNotify = this.showNotify.bind(this);
+		this.addNotify = this.addNotify.bind(this);
 		this.hideNotify = this.hideNotify.bind(this);
-		this.success = this.success.bind(this);
-		this.error = this.error.bind(this);
-		this.info = this.info.bind(this);
 
 	}
 
 	componentWillMount() {
 		this.props.notifyApi({
-			success: this.success,
-			error: this.error,
-			info: this.info
+			addNotify: this.addNotify
 		});
 	}
 
-	showNotify(msg, type) {
-		this.setState({msg, type, displayNotify: true}, () => this.hideNotify(5000));
+	addNotify(msg) {
+		let obj = {id: this.id++, msg};
+		this.setState({notifications: [...this.state.notifications, obj]}, () => this.hideNotify(obj.id, 3000));
 	}
 
-	hideNotify(ms) {
-		setTimeout(() => this.setState({displayNotify: false}), ms);
-	}
-
-	success(msg) {
-		this.showNotify(msg, 'success');
-	}
-
-	error(msg) {
-		this.showNotify(msg, 'error');
-	}
-
-	info(msg) {
-		this.showNotify(msg, 'info');
+	hideNotify(id, ms) {
+		setTimeout(() => this.setState({notifications: this.state.notifications.filter(i => id !== i.id)}), ms);
 	}
 
 	render() {
-		let {msg, type, displayNotify} = this.state,
-			notifyClass = classNames('notify', type, {'show-notify': displayNotify});
-
 		return (
-			<div>
-				<div className={notifyClass} onClick={() => this.hideNotify(0)}>
-					{msg}
-				</div>
+			<div className="notifications">
+				{this.state.notifications.map(({id, msg}) => <div onClick={() => this.hideNotify(id, 0)} className="notification">{msg}</div>)}
 			</div>
 		)
 	}
