@@ -6,16 +6,16 @@ const webpack = require('webpack'),
 	OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
-	entry: './index.js',
+	entry: './client/index.js',
 	output: {
-		path: path.resolve(__dirname, 'build'),
+		path: path.resolve(__dirname, 'client/build'),
 		filename: 'script.js'
 	},
 	watch: true,
 	resolve: {
 		alias: {
-			components: path.resolve(__dirname, 'app/commons/components'),
-			utils: path.resolve(__dirname, 'app/commons/utils')
+			components: path.resolve(__dirname, 'client/app/commons/components'),
+			utils: path.resolve(__dirname, 'client/app/commons/utils')
 		}
 	},
 	module: {
