@@ -1,7 +1,9 @@
-let mongoose = require('mongoose');
-let validator = require('validator');
-let jwt = require('jsonwebtoken');
-let _ = require('lodash');
+const mongoose = require('mongoose');
+const validator = require('validator');
+const jwt = require('jsonwebtoken');
+const _ = require('lodash');
+
+const {SALT} = require('../config.json');
 
 let UserSchema = new mongoose.Schema({
 	email: {
@@ -44,7 +46,7 @@ UserSchema.methods.toJSON = function() {
 UserSchema.methods.generateAuthToken = function() {
 	let user = this;
 	let access = 'auth';
-	let token = jwt.sign({_id: user._id.toHexString(), access}, 'salt').toString();
+	let token = jwt.sign({_id: user._id.toHexString(), access}, SALT).toString();
 
 	user.tokens.push({access, token});
 
@@ -56,7 +58,7 @@ UserSchema.statics.findByToken = function(token) {
 	let decoded;
 
 	try {
-		decoded = jwt.verify(token, 'salt');
+		decoded = jwt.verify(token, SALT);
 	} catch(e) {
 		return Promise.reject();
 	}
