@@ -1,8 +1,8 @@
 {
-	"SALT": ".:9Em3n6p/7L=^W4",
+	"TOKEN_SALT": ".:9Em3n6p/7L=^W4",
+	"PASS_SALT": "7r@^DP'Y]')xemk?", 
 	"DEV": {
 		"PORT": 3000,
 		"MONGODB_URI": "mongodb://localhost:27017/Users"
-		
 	}
 }

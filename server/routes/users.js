@@ -1,65 +1,42 @@
 const {ObjectID} = require('mongodb');
 const _ = require('lodash');
 const express = require('express');
+const bcrypt = require("bcryptjs");
 const router = express.Router();
+const {PASS_SALT} = require('../config.json');
 
-//let {mongoose} = require('../database/mongoose');
-let {User} = require('../models/user');
-let {authenticate} = require('../middlewares/authenticate');
-
-router.use(function timeLog (req, res, next) {
-  console.log('Time: ', Date.now())
-  next();
-});
+const User = require('../models/user');
+const {authenticate} = require('../middlewares/authenticate');
 
 router.get('/me', authenticate, (req, res) => res.send(req.user));
 
-router.post('/', (req, res) => {
-	console.log(req.body);
-	let {email, name} = req.body;
+router.post('/signup', (req, res) => {
+	let {email, name} = req.body,
+		decryptedPass = Math.random().toString(36).substr(2, 8),
+		encryptedPass = bcrypt.hashSync(decryptedPass, 10);
 
-	let newUser = new User({email, name});
+		console.log(req.body);
+
+	let newUser = new User({email, name, password: encryptedPass});
 		newUser.save()
 			.then(_ => newUser.generateAuthToken())
-			.then(token => res.header('x-auth', token).send(newUser))
+			.then(token => res.header('x-auth', token).send({success: true, message: 'Account has been created.'}))
 			.catch(e => res.status(400).send(e));
-
-	console.log('here');
 });
 
-router.get('/', (req, res) => {
+router.post('/login', authenticate, (req, res) => {
 	User.find()
 		.then(doc => res.send({doc}))
 		.catch(e => res.status(400).send(e));
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', authenticate, (req, res) => {
 	let id = req.params.id;
 	if(!ObjectID.isValid(id)) return res.status(404).send();
 
 	User.findById(id)
 		.then(user => user ? res.send({user}) : Promise.reject())
 		.catch(e => res.status(404).send(e))
-});
-
-router.delete('/:id', (req, res) => {
-	let id = req.params.id;
-	if(!ObjectID.isValid(id)) return res.status(404).send('ID not valid.');
-
-	User.remove({_id: id})
-		.then(doc => doc ? res.send({doc}) : res.status(404).send('Couldnt find doc'))
-		.catch(e => res.status(400).send(e));
-});
-
-router.patch('/:id', (req, res) => {
-	let id = req.params.id,
-		body = _.pick(req.body, ['email', 'name', 'active']);
-
-	if(!ObjectID.isValid(id)) return res.status(404).send('ID not valid.');
-
-	User.findByIdAndUpdate(id, {$set: body}, {new: true})
-		.then(user => user ? res.send({user}) : res.status(404).send())
-		.catch(e => res.status(400).send())
 });
 
 module.exports = router;

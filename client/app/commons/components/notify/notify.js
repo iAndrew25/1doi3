@@ -29,7 +29,7 @@ export default class Notify extends React.Component {
 	render() {
 		return (
 			<div className="notifications">
-				{this.state.notifications.map(({id, msg}) => <div onClick={() => this.hideNotify(id, 0)} className="notification">{msg}</div>)}
+				{this.state.notifications.map(({id, msg}) => <div onClick={() => this.hideNotify(id, 0)} key={id} className="notification">{msg}</div>)}
 			</div>
 		)
 	}

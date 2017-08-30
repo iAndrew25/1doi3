@@ -1,6 +1,7 @@
 import Login from './log-in/log-in';
 import Signup from './sign-up/sign-up';
 import Notify from 'components/notify/notify';
+import {login, signup} from './authentication-service';
 import InlineNotify from 'components/inline-notify/inline-notify';
 
 let notify, inlineNotify;
@@ -9,7 +10,7 @@ export default class Authentication extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			displayLogin: true,
+			displayLogin: false,
 			email: '',
 			password: '',
 			name: ''
@@ -19,6 +20,8 @@ export default class Authentication extends React.Component {
 		this.inlineNotifyApi = this.inlineNotifyApi.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.toggleDisplay = this.toggleDisplay.bind(this);
+		this.handleSignup = this.handleSignup.bind(this)
+		this.handleLogin = this.handleLogin.bind(this)
 	}
 
 	toggleDisplay() {
@@ -35,6 +38,22 @@ export default class Authentication extends React.Component {
 		inlineNotify = api;
 	}
 
+	handleSignup() {
+		let {email, name} = this.state;
+		signup(email, name).then(data => {
+			console.log('signup', data)
+			inlineNotify.success(data.message);
+		});
+	}
+
+	handleLogin() {
+		let {email, password} = this.state;
+		login(email, password).then(data => {
+			console.log('login', data)
+			inlineNotify.success(data.message);
+		});
+	}
+
 	handleChange(key, value) {
 		this.setState({[key]: value});
 	}
@@ -44,13 +63,17 @@ export default class Authentication extends React.Component {
 
 		return(
 			<div className="authenticate-box">
-				{displayLogin ? <Login 
-					email={email}
-					password={password}
-					handleChange={this.handleChange} /> : ''}
-				{!displayLogin ? <Signup 
-					email={email}
-					name={name} /> : ''}
+				{displayLogin ? 
+					<Login 
+						email={email}
+						password={password}
+						handleLogin={this.handleLogin}
+						handleChange={this.handleChange} /> : 
+					<Signup 
+						email={email}
+						name={name}
+						handleSignup={this.handleSignup}
+						handleChange={this.handleChange} />}
 
 				<Notify notifyApi={this.notifyApi} />
 
@@ -59,13 +82,10 @@ export default class Authentication extends React.Component {
 				{displayLogin ? 
 					<div className="sign-up-now">Don't have an account yet? 
 						<span onClick={() => this.toggleDisplay()}> Signup Now</span>
-					</div>
-				: ''}
-				{!displayLogin ? 
+					</div> : 
 					<div className="sign-up-now">Got an account? 
 						<span onClick={() => this.toggleDisplay()}> Login Now</span>
-					</div>
-				: ''}
+					</div>}
 			</div>
 		)		
 	}
