@@ -14,6 +14,10 @@ let UserSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	updated: {
+		type: Number,
+		default: Date.now()
+	},
 	password: {
 		type: String
 	},
@@ -27,12 +31,8 @@ let UserSchema = new mongoose.Schema({
 	return _.pick(this.toObject(), ['_id', 'email']);
 }*/
 
-UserSchema.methods.generateAuthToken = function() {
-	return jwt.sign({
-		_id: this._id.toHexString(),
-	}, TOKEN_SALT, {expiresIn: 86400}).toString();
-}
+ const generateAuthToken = ({_id, updated}) => jwt.sign({_id, updated}, TOKEN_SALT, {expiresIn: 86400}).toString();
 
 let User = mongoose.model('User', UserSchema);
 
-module.exports = User;
+module.exports = {User, generateAuthToken};

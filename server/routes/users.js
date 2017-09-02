@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const router = express.Router();
 const {PASS_SALT} = require('../config.json');
 
-const User = require('../models/user');
+const {User, generateAuthToken} = require('../models/user');
 const {authenticate} = require('../middlewares/authenticate');
 
 router.get('/me', authenticate, (req, res) => res.send(req.user));
@@ -15,19 +15,22 @@ router.post('/signup', (req, res) => {
 		decryptedPass = Math.random().toString(36).substr(2, 8),
 		encryptedPass = bcrypt.hashSync(decryptedPass, 10);
 
-		console.log(req.body);
-
 	let newUser = new User({email, name, password: encryptedPass});
 		newUser.save()
-			.then(_ => newUser.generateAuthToken())
-			.then(token => res.header('x-auth', token).send({success: true, message: 'Account has been created.'}))
-			.catch(e => res.status(400).send(e));
+			.then(_ => res.send({success: true, message: 'Account has been created. - ' + decryptedPass}))
+			.catch(e => res.status(400).send({success: false, message: 'We could not create your account. Please try again later.'}));
 });
 
-router.post('/login', authenticate, (req, res) => {
-	User.find()
-		.then(doc => res.send({doc}))
-		.catch(e => res.status(400).send(e));
+router.post('/login', (req, res) => {
+	let {email, password} = req.body;
+	User.findOne({email})
+		.then(user => {
+			if(!user) return res.status(404).send({success: false, message: 'Username not found.'});
+			if(!bcrypt.compareSync(password, user.password)) return res.status(401).send({success: false, message: 'Wrong password.'});
+
+			res.header('x-auth', generateAuthToken(user)).send({success: true, message: 'Login successful.', user})
+		})
+		.catch(e => res.status(400).send({success: false, message: 'Login failed.'+ e}));
 });
 
 router.get('/:id', authenticate, (req, res) => {
