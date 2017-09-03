@@ -45,9 +45,9 @@ module.exports = {
 		new ReactRootPlugin,
 		new webpack.LoaderOptionsPlugin({
 			minimize: true,
-			debug: false
+			debug: true
 		}),
-		new webpack.optimize.UglifyJsPlugin({
+/*		new webpack.optimize.UglifyJsPlugin({
 			beautify: false,
 			mangle: {
 				screw_ie8: true,
@@ -61,6 +61,6 @@ module.exports = {
 		new OptimizeCssAssetsPlugin({
 			assetNameRegExp: /\.style\.css$/g,
 			canPrint: true
-		})
+		})*/
 	],
 }

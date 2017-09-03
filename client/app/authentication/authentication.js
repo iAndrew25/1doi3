@@ -1,6 +1,7 @@
 import Login from './log-in/log-in';
 import Signup from './sign-up/sign-up';
 import Notify from 'components/notify/notify';
+import {setToken} from 'utils/auth';
 import {login, signup} from './authentication-service';
 import InlineNotify from 'components/inline-notify/inline-notify';
 
@@ -49,7 +50,9 @@ export default class Authentication extends React.Component {
 	handleLogin() {
 		let {email, password} = this.state;
 		login(email, password).then(data => {
-			console.log('login', data)
+			console.log('login', data);
+
+			setToken(data.token);
 			inlineNotify.success(data.message);
 		});
 	}

@@ -9,8 +9,8 @@ const config = require('./config.json');
 
 const app = express();
 
-app.use(express.static(__dirname + '/../client/build'));
-app.get('/', (req, res) => res.sendFile(path.join(__dirname + 'index.html')));
+app.use(express.static(path.join(__dirname, '/../client/build')));
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname + '/../client/build/index.html')));
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));

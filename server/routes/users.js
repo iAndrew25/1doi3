@@ -27,8 +27,8 @@ router.post('/login', (req, res) => {
 		.then(user => {
 			if(!user) return res.status(404).send({success: false, message: 'Username not found.'});
 			if(!bcrypt.compareSync(password, user.password)) return res.status(401).send({success: false, message: 'Wrong password.'});
-
-			res.header('x-auth', generateAuthToken(user)).send({success: true, message: 'Login successful.', user})
+			
+			res.send({success: true, message: 'Login successful.', token: generateAuthToken(user), user})
 		})
 		.catch(e => res.status(400).send({success: false, message: 'Login failed.'+ e}));
 });
