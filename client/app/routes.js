@@ -1,12 +1,13 @@
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {removeToken, isTokenSet} from 'utils/auth';
 import Authentication from './authentication/authentication';
+import Dashboard from './dashboard/dashboard';
 
 export default function() {
 
 	function isLogged() {
 		if(isTokenSet()) {
-			return <Redirect to="/my-profile" />
+			return <Redirect to="/dashboard" />
 		} else {
 			return <Authentication />;
 		}
@@ -29,7 +30,7 @@ export default function() {
 		<Switch>
 			<Route exact path='/' render={() => isLogged()}/>
 			<Route exact path='/logout' render={() => logout()}/>
-			<Route exact path='/my-profile' render={() => privateRoute(<div>my profile</div>)}/>
+			<Route exact path='/dashboard' render={() => privateRoute(<Dashboard />)}/>
 			<Route component={() => (<div>404 - GTFO</div>)}/>
 		</Switch>
 	)

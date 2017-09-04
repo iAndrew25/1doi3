@@ -1,3 +1,5 @@
+//<InlineNotify inlineNotifyApi={this.inlineNotifyApi} />
+
 import classNames from 'classnames';
 
 export default class InlineNotify extends React.Component {

@@ -4,6 +4,9 @@ import Notify from 'components/notify/notify';
 import {setToken} from 'utils/auth';
 import {login, signup} from './authentication-service';
 import InlineNotify from 'components/inline-notify/inline-notify';
+import {Redirect} from 'react-router-dom';
+
+import {getUser, setUser} from 'utils/user';
 
 let notify, inlineNotify;
 
@@ -27,8 +30,8 @@ export default class Authentication extends React.Component {
 
 	toggleDisplay() {
 		this.setState(state => ({displayLogin: !state.displayLogin}));
-		notify.addNotify(`You received a new message from GAG DGkn dDG.`);
-		inlineNotify.success(`Salut`);
+/*		notify.addNotify(`You received a new message from GAG DGkn dDG.`);
+		inlineNotify.success(`Salut`);*/
 	}
 
 	notifyApi(api) {
@@ -51,9 +54,9 @@ export default class Authentication extends React.Component {
 		let {email, password} = this.state;
 		login(email, password).then(data => {
 			console.log('login', data);
-
 			setToken(data.token);
-			inlineNotify.success(data.message);
+			setUser(data.user);
+			this.setState({toLogin: data.success});
 		});
 	}
 
@@ -79,8 +82,9 @@ export default class Authentication extends React.Component {
 						handleChange={this.handleChange} />}
 
 				<Notify notifyApi={this.notifyApi} />
-
 				<InlineNotify inlineNotifyApi={this.inlineNotifyApi} />
+
+				{this.state.toLogin ? <Redirect to="/dashboard" /> : ''}
 
 				{displayLogin ? 
 					<div className="sign-up-now">Don't have an account yet? 

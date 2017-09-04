@@ -1,3 +1,5 @@
+//<Notify notifyApi={this.notifyApi} />
+
 export default class Notify extends React.Component {
 	constructor(props) {
 		super(props);
