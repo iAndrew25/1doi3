@@ -12,4 +12,4 @@ export function signup(email, name) {
 		method: 'POST',
 		body: JSON.stringify({email, name})
 	})
-}//aa - 1kxqk4nx
+}//aa - 3wualgpo
