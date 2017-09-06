@@ -1,0 +1,39 @@
+.messages-sidebar {
+	width: 100px;
+	position: absolute;
+	top: 60px;
+	left: -100%;
+	bottom: 0;
+	height: calc(100vh - #{$header-width});
+	background-color: #fff;
+	overflow: auto;
+	transition: left ease .5s;
+
+	&.show-messages {
+		left: $lhp-width;
+	}
+
+	.users {
+		li {
+			width: 100%;
+			height: 70px;
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+			.user-icon {
+				cursor: pointer;
+				width: 40px;
+				height: 50px;
+				background-size: 40px;
+				background-repeat: no-repeat;
+			}
+
+			.user-name {
+				cursor: pointer;
+				font-size: 12px;
+			}
+		}
+	}
+}

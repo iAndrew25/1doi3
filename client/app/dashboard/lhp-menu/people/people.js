@@ -1,6 +1,8 @@
-export default function() {
+import classnames from 'classnames';
+
+export default function(props) {
 	return(
-		<div className="user-search">
+		<div className={classnames('people-sidebar', {'show-people': props.selectedItem === 'people'})}>
 			<div className="search">
 				<span className="magnifying-glass" />
 				<input type="text" placeholder="Search for people" />

@@ -1,12 +1,17 @@
-.user-search {
+.people-sidebar {
 	width: 230px;
 	position: absolute;
 	top: 60px;
-	right: 0;
+	left: -100%;
 	bottom: 0;
-	height: calc(100vh - 60px);
+	height: calc(100vh - #{$header-width});
 	background-color: #fff;
 	overflow: auto;
+	transition: left ease .5s;
+
+	&.show-people {
+		left: $lhp-width;
+	}
 
 	.search {
 		width: 100%;
